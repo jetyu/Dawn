@@ -1,12 +1,12 @@
-# Dawn ![GitHub license](https://img.shields.io/github/license/yourusername/dawn?style=flat-square)
+# Dawn ![GitHub license](https://img.shields.io/github/license/jetyu/dawn?style=flat-square)
 
 Dawn（破晓）象征着教育技术的崭新时代，代表教育信息化从传统模式向AI赋能的智能化转型，如同黎明驱散黑暗。
 
 Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集成了 AI 辅助教学功能，旨在为教育工作者和学生提供更高效、更智能的教学体验。
 
-![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/dawn)
-![GitHub repo size](https://img.shields.io/github/repo-size/yourusername/dawn)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/dawn)
+![GitHub last commit](https://img.shields.io/github/last-commit/jetyu/dawn)
+![GitHub repo size](https://img.shields.io/github/repo-size/yjetyu/dawn)
+![GitHub issues](https://img.shields.io/github/issues/jetyu/dawn)
 
 ## 🌟 项目功能
 

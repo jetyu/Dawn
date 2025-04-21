@@ -8,6 +8,10 @@ Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集�
 ![GitHub repo size](https://img.shields.io/github/repo-size/jetyu/dawn)
 ![GitHub issues](https://img.shields.io/github/issues/jetyu/dawn)
 
+## 🔄 项目状态
+- **开发阶段**: 项目仍在进行中，功能暂未完全实现。
+- **贡献**: 欢迎所有贡献者的参与！
+
 ## 🌟 项目功能
 
 ### 智能教学助手
@@ -23,7 +27,7 @@ Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集�
 ### 现代化技术栈
 - 前后端分离架构
 - RESTful API 设计
-
+- JWT权限认证机制
 
 ## 🛠️ 技术架构
 

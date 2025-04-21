@@ -1,0 +1,55 @@
+/* 应用整体容器样式 */
+/* 设置最小高度和渐变背景，创建柔和的视觉效果 */
+.app-wrapper {
+  background: linear-gradient(to bottom, #f0f2f5, #ffffff);
+}
+
+/* 应用头部样式 */
+/* 使用蓝色渐变背景，添加阴影效果提升层次感 */
+.app-header {
+  background: linear-gradient(135deg, #1976D2, #2196F3);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  height: 50px ; /* 头部高度 */
+}
+
+/* 头部内容布局样式 */
+/* 使用flex布局使内容垂直居中对齐 */
+.header-content {
+  padding: 0 60px 30px 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 系统标题样式 */
+/* 设置字体大小、粗细和字间距，使用文字阴影增强立体感 */
+.system-title {
+  font-size: 1.5rem; /* 减小字体大小 */
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 主要内容区域样式 */
+/* 设置内边距和宽度，使用透明背景 */
+.app-main {
+  padding: 10px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: transparent;
+}
+
+/* 版权信息样式 */
+/* 设置文本居中、颜色和字体大小 */
+.copyright {
+  text-align: center;
+  color: #616161;
+  margin-top: 10px;
+  font-size: 12px;
+  flex-shrink: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+}

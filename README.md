@@ -5,7 +5,9 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/jetyu/dawn)
 ![GitHub issues](https://img.shields.io/github/issues/jetyu/dawn)
 
-Dawn，顾名思义：破晓，黎明，象征着教育技术的崭新时代，代表教育信息化从传统模式向AI赋能的智能化转型，如同黎明驱散黑暗。
+Dawn，顾名思义：破晓，黎明，象征着教育技术的崭新时代，在知识的世界里，每一天都是新的黎明。
+
+Dawn 智能教育平台，以人工智能驱动个性化学习体验，帮助学生、教师迎接崭新的智慧时代。结合先进的 AI 技术，提供精准的学习推荐、智能辅导，以及互动式课程设计，让知识的曙光照亮每一个求知者的旅程。
 
 Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集成了 AI 辅助教学功能，旨在为教育工作者和学生提供更高效、更智能的教学体验。
 

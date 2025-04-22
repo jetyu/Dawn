@@ -56,7 +56,7 @@ Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集�
 - **测试工具**: Cypress 端到端测试
 - **状态管理**: Pinia
 
-## 成长轨迹  
+### 成长轨迹  
 [![Star History Chart](https://api.star-history.com/svg?repos=jetyu/Dawn)](https://star-history.com/#jetyu/Dawn)  
 *感谢每一位Star支持者！*
 

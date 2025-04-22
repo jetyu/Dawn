@@ -1,4 +1,4 @@
-# Dawn
+# Dawn智能教育平台
 
 ![GitHub license](https://img.shields.io/github/license/jetyu/dawn?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/jetyu/dawn)

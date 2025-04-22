@@ -234,7 +234,7 @@ const viewResult = async (paper) => {
 
 <style scoped>
 .dashboard {
-  height: 100vh;
+  min-height: calc(100vh - 120px);
   background-color: #f5f7fa;
 }
 

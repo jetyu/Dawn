@@ -14,7 +14,7 @@ public class Constants {
     }
 
     public static class PromptText {
-        public static final String DEFAULT = "你是一个人工智能助手，按照以下要求回答问题";
+        public static final String DEFAULT = "你是一个人工智能助手，按照以下要求回答问题:";
         public static final String COURSE = "课程是";
         public static final String GRADE = "，学习水平是";
         public static final String SIMPLE = "，请直接给出答案";

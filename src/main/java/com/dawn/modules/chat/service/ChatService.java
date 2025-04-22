@@ -28,6 +28,7 @@ public class ChatService {
         } else {
             return null;
         }
+        debugLogger.info(parsePromptText);
         return parsePromptText;
     }
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+import router from '@/router';
 
 const API_URL = 'http://localhost:8080';
 
@@ -29,6 +30,17 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // 处理 token 过期
+    if (error.response && error.response.status === 401) {
+      // 清除本地存储的 token
+      localStorage.removeItem('token');
+      // 显示提示信息
+      ElMessage.error('登录已过期，请重新登录');
+      // 跳转到登录页
+      router.push('/login');
+      return Promise.reject(new Error('登录已过期，请重新登录'));
+    }
+
     // 获取错误信息
     let errorMessage = '系统异常错误';
     if (error.response && error.response.data) {

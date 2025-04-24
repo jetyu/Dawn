@@ -32,9 +32,9 @@
         <div class="setting-item">
           <label class="setting-label">学科：</label>
           <el-select v-model="subject" placeholder="选择学科" class="setting-select">
-            <el-option label="语文" value="chinese"></el-option>
-            <el-option label="数学" value="math"></el-option>
-            <el-option label="英语" value="english"></el-option>
+            <el-option label="语文" value="语文"></el-option>
+            <el-option label="数学" value="数学"></el-option>
+            <el-option label="英语" value="英语"></el-option>
           </el-select>
         </div>
         <div class="setting-item">

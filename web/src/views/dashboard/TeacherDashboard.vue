@@ -4,15 +4,21 @@
       <el-aside width="200px">
         <el-menu class="dashboard-menu" :default-active="activeMenu">
           <el-menu-item index="1" @click="switchContent('overview')">
-            <el-icon><DataLine /></el-icon>
+            <el-icon>
+              <DataLine />
+            </el-icon>
             <span>教学概览</span>
           </el-menu-item>
           <el-menu-item index="2" @click="switchContent('grading')">
-            <el-icon><Document /></el-icon>
+            <el-icon>
+              <Document />
+            </el-icon>
             <span>智能阅卷</span>
           </el-menu-item>
           <el-menu-item index="3" @click="switchContent('assistant')">
-            <el-icon><ChatDotRound /></el-icon>
+            <el-icon>
+              <ChatDotRound />
+            </el-icon>
             <span>学习助手</span>
           </el-menu-item>
         </el-menu>
@@ -24,10 +30,16 @@
             <template #header>
               <div class="card-header">
                 <h3>智能阅卷系统</h3>
-                <el-button type="primary" @click="handleUpload">上传试卷</el-button>
+                <div class="header-buttons">
+                  <el-button type="primary" @click="handleUpload">上传试卷</el-button>
+                  <el-button type="info" @click="refreshPaperList">
+                    <el-icon><Refresh /></el-icon>
+                    刷新
+                  </el-button>
+                </div>
               </div>
             </template>
-            
+
             <!-- 试卷列表 -->
             <el-table :data="paperList" style="width: 100%">
               <el-table-column prop="name" label="试卷名称" />
@@ -42,18 +54,10 @@
               </el-table-column>
               <el-table-column label="操作" width="200">
                 <template #default="{ row }">
-                  <el-button
-                    type="primary"
-                    size="small"
-                    @click="handleStartGrading(row)"
-                    :disabled="row.status === '已完成'"
-                  >开始批改</el-button>
-                  <el-button
-                    type="info"
-                    size="small"
-                    @click="viewResult(row)"
-                    :disabled="row.status !== '已完成'"
-                  >查看结果</el-button>
+                  <el-button type="primary" size="small" @click="handleStartGrading(row)"
+                    :disabled="row.status === '已完成'">开始批改</el-button>
+                  <el-button type="info" size="small" @click="viewResult(row)"
+                    :disabled="row.status !== '已完成'">查看结果</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -85,11 +89,7 @@
     </el-container>
 
     <!-- 上传试卷对话框 -->
-    <el-dialog
-      v-model="uploadDialogVisible"
-      title="上传试卷"
-      width="30%"
-    >
+    <el-dialog v-model="uploadDialogVisible" title="上传试卷" width="30%">
       <el-form :model="uploadForm" label-width="80px">
         <el-form-item label="试卷名称">
           <el-input v-model="uploadForm.name" placeholder="请输入试卷名称" />
@@ -102,16 +102,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="试卷文件">
-          <el-upload
-            class="upload-demo"
-            action="#"
-            :auto-upload="false"
-            :on-change="handleFileChange"
-          >
+          <el-upload class="upload-demo" :action="null" :http-request="handleFileUpload"
+            :before-upload="beforeFileUpload" :limit="1">
             <el-button type="primary">选择文件</el-button>
             <template #tip>
               <div class="el-upload__tip">
-                支持上传jpg/png格式的试卷扫描件
+                支持上传jpg/png/pdf格式的试卷文件
               </div>
             </template>
           </el-upload>
@@ -128,8 +124,8 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { Document, DataLine, ChatDotRound } from '@element-plus/icons-vue'
+import { ref, reactive, onMounted } from 'vue'
+import { Document, DataLine, ChatDotRound, Refresh } from '@element-plus/icons-vue'
 import LearningAssistant from '@/components/chat/LearningAssistant.vue'
 import { ElMessage } from 'element-plus'
 import { getPaperList, uploadPaper, startGrading, getGradingResult } from '@/api/paper'
@@ -142,7 +138,12 @@ const currentContent = ref('overview')
 // 切换内容显示
 const switchContent = (content) => {
   currentContent.value = content
-  activeMenu.value = content === 'overview' ? '1' : '2'
+  activeMenu.value = content === 'overview' ? '1' : content === 'grading' ? '2' : '3'
+
+  // 如果切换到智能阅卷标签，重新获取试卷列表
+  if (content === 'grading') {
+    fetchPaperList()
+  }
 }
 
 // 试卷列表数据
@@ -151,10 +152,36 @@ const paperList = ref([])
 // 获取试卷列表
 const fetchPaperList = async () => {
   try {
-    const { data } = await getPaperList()
-    paperList.value = data
+    const response = await getPaperList();
+
+    const papers = Array.isArray(response) ? response : [];
+
+    paperList.value = papers.map(item => {
+      const uploadTime = item.uploadTime;
+      let formattedTime = '';
+
+      if (uploadTime) {
+        if (typeof uploadTime === 'object') {
+          // 处理 LocalDateTime 对象
+          formattedTime = `${uploadTime.year}-${String(uploadTime.monthValue).padStart(2, '0')}-${String(uploadTime.dayOfMonth).padStart(2, '0')} ${String(uploadTime.hour).padStart(2, '0')}:${String(uploadTime.minute).padStart(2, '0')}`;
+        } else if (typeof uploadTime === 'string') {
+          // 处理字符串格式的日期
+          formattedTime = uploadTime;
+        }
+      }
+
+      const paper = {
+        id: item.id,
+        name: item.name,
+        subject: item.subject,
+        uploadTime: formattedTime,
+        status: item.status || '未批改'
+      };
+      return paper;
+    });
+
   } catch (error) {
-    ElMessage.error('获取试卷列表失败')
+    ElMessage.error('获取试卷列表失败');
   }
 }
 
@@ -171,20 +198,20 @@ const handleUpload = () => {
   uploadDialogVisible.value = true
 }
 
-// 处理文件选择变化
-const handleFileChange = (uploadFile) => {
-  if (!uploadFile.raw) {
-    ElMessage.warning('文件上传失败，请重试')
-    return
+// 文件上传前的验证
+const beforeFileUpload = (file) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']
+  if (!allowedTypes.includes(file.type)) {
+    ElMessage.warning('只支持上传jpg/png/pdf格式的文件')
+    return false
   }
-  
-  const allowedTypes = ['image/jpeg', 'image/png']
-  if (!allowedTypes.includes(uploadFile.raw.type)) {
-    ElMessage.warning('只支持上传jpg/png格式的图片')
-    return
-  }
-  
-  uploadForm.file = uploadFile.raw
+  return true
+}
+
+// 处理文件上传
+const handleFileUpload = async (options) => {
+  const { file } = options
+  uploadForm.file = file
 }
 
 // 提交上传
@@ -194,13 +221,8 @@ const submitUpload = async () => {
     return
   }
 
-  const formData = new FormData()
-  formData.append('file', uploadForm.file)
-  formData.append('name', uploadForm.name)
-  formData.append('subject', uploadForm.subject)
-
   try {
-    await uploadPaper(formData)
+    await uploadPaper(uploadForm.file, uploadForm.name, uploadForm.subject)
     ElMessage.success('上传成功')
     uploadDialogVisible.value = false
     fetchPaperList() // 刷新试卷列表
@@ -208,6 +230,7 @@ const submitUpload = async () => {
     ElMessage.error(error.message || '上传失败')
   }
 }
+
 // 开始批改试卷
 const handleStartGrading = async (paper) => {
   try {
@@ -230,6 +253,23 @@ const viewResult = async (paper) => {
   }
 }
 
+// 刷新试卷列表
+const refreshPaperList = async () => {
+  try {
+    await fetchPaperList()
+    ElMessage.success('试卷列表刷新成功')
+  } catch (error) {
+    ElMessage.error('刷新试卷列表失败')
+  }
+}
+
+// 在组件挂载时获取数据
+onMounted(() => {
+  if (currentContent.value === 'grading') {
+    fetchPaperList()
+  }
+})
+
 </script>
 
 <style scoped>
@@ -247,6 +287,11 @@ const viewResult = async (paper) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 .grading-card {

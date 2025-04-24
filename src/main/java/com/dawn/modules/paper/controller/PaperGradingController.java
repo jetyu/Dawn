@@ -5,10 +5,26 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import com.dawn.modules.paper.entity.Paper;
+import com.dawn.modules.paper.repository.PaperRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/grading")
+
+
 public class PaperGradingController {
+
+    @Value("${paper.upload.dir}")
+    private String uploadDir;
+
+    @Autowired
+    private PaperRepository paperRepository;
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadPaper(
@@ -16,11 +32,28 @@ public class PaperGradingController {
             @RequestParam("name") String name,
             @RequestParam("subject") String subject) {
         try {
-          
-            
+            // 自动保存文件到配置路径
+            File dir = new File(uploadDir);
+            if (!dir.exists())
+                dir.mkdirs();
+            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            File dest = new File(dir, filename);
+            file.transferTo(dest);
+
+            // 保存试卷记录到数据库
+            Paper paper = new Paper();
+            paper.setId(filename); // 用文件名做唯一ID
+            paper.setName(name);
+            paper.setSubject(subject);
+            paper.setPath(dest.getAbsolutePath());
+            paper.setUploadTime(LocalDateTime.now());
+            paper.setStatus("未批改"); // 设置默认状态
+            paperRepository.save(paper);
+
             Map<String, Object> response = new HashMap<>();
             response.put("message", "试卷上传成功");
-            response.put("paperId", "generated-paper-id");
+            response.put("paperPath", dest.getAbsolutePath());
+            response.put("paperId", filename); // 用文件名做paperId示例
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
@@ -29,11 +62,24 @@ public class PaperGradingController {
         }
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<?> listPapers() {
+        try {
+            List<Paper> papers = paperRepository.findAll();
+            System.out.println("查询到的试卷列表: " + papers);
+            return ResponseEntity.ok(papers);
+        } catch (Exception e) {
+            System.err.println("获取试卷列表失败: " + e.getMessage());
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "获取试卷列表失败: " + e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     @PostMapping("/grade/{paperId}")
     public ResponseEntity<?> gradePaper(@PathVariable String paperId) {
         try {
-          
-            
+
             Map<String, Object> result = new HashMap<>();
             result.put("status", "success");
             result.put("score", 95); // 示例分数
@@ -49,15 +95,17 @@ public class PaperGradingController {
     @GetMapping("/result/{paperId}")
     public ResponseEntity<?> getGradingResult(@PathVariable String paperId) {
         try {
-           
+
             Map<String, Object> result = new HashMap<>();
             result.put("paperId", paperId);
             result.put("score", 95);
-            result.put("details", new HashMap<String, Object>() {{
-                put("correctCount", 18);
-                put("totalCount", 20);
-                put("analysis", "答题完成度高，理解深入");
-            }});
+            result.put("details", new HashMap<String, Object>() {
+                {
+                    put("correctCount", 18);
+                    put("totalCount", 20);
+                    put("analysis", "答题完成度高，理解深入");
+                }
+            });
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

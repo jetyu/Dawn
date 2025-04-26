@@ -28,26 +28,33 @@ export const uploadPaper = async (file, name, subject) => {
     if (error.response) {
       throw new Error(error.response.data.message || '上传失败，请稍后重试');
     }
-    throw new Error('网络异常，请检查网络连接');
+    throw new Error('网络异常，请检查网络连接1');
   }
 };
 
 // 开始批改试卷
+// paperId: 试卷ID，userId: 用户ID
 export const startGrading = async (paperId) => {
   try {
     const response = await api.post(`/api/grading/grade/${paperId}`);
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.response) {
+      throw new Error(error.response.data.message || '批改失败，请稍后重试');
+    }
+    throw new Error('网络异常，请检查网络连接2');
   }
 };
 
 // 获取批改结果
 export const getGradingResult = async (paperId) => {
   try {
-    const response = await api.post(`/api/grading/result/${paperId}`);
+    const response = await api.get(`/api/grading/result/${paperId}`);
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.response) {
+      throw new Error(error.response.data.message || '获取批改结果失败');
+    }
+    throw new Error('网络异常，请检查网络连接3');
   }
 };

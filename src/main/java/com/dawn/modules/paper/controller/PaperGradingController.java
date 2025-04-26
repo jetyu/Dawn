@@ -28,9 +28,9 @@ public class PaperGradingController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadPaper(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("name") String name,
-            @RequestParam("subject") String subject) {
+            @RequestParam(name = "file") MultipartFile file,
+            @RequestParam(name = "name") String name,
+            @RequestParam(name = "subject") String subject) {
         try {
             // 自动保存文件到配置路径
             File dir = new File(uploadDir);
@@ -77,7 +77,7 @@ public class PaperGradingController {
     }
 
     @PostMapping("/grade/{paperId}")
-    public ResponseEntity<?> gradePaper(@PathVariable String paperId) {
+    public ResponseEntity<?> gradePaper(@PathVariable(name = "paperId") String paperId) {
         try {
 
             Map<String, Object> result = new HashMap<>();
@@ -93,7 +93,7 @@ public class PaperGradingController {
     }
 
     @GetMapping("/result/{paperId}")
-    public ResponseEntity<?> getGradingResult(@PathVariable String paperId) {
+    public ResponseEntity<?> getGradingResult(@PathVariable(name = "paperId") String paperId) {
         try {
 
             Map<String, Object> result = new HashMap<>();

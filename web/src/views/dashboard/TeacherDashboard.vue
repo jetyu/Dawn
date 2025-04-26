@@ -33,7 +33,9 @@
                 <div class="header-buttons">
                   <el-button type="primary" @click="handleUpload">上传试卷</el-button>
                   <el-button type="info" @click="refreshPaperList">
-                    <el-icon><Refresh /></el-icon>
+                    <el-icon>
+                      <Refresh />
+                    </el-icon>
                     刷新
                   </el-button>
                 </div>
@@ -96,9 +98,9 @@
         </el-form-item>
         <el-form-item label="科目">
           <el-select v-model="uploadForm.subject" placeholder="请选择科目">
-            <el-option label="语文" value="chinese" />
-            <el-option label="数学" value="math" />
-            <el-option label="英语" value="english" />
+            <el-option label="语文" value="语文" />
+            <el-option label="数学" value="数学" />
+            <el-option label="英语" value="英语" />
           </el-select>
         </el-form-item>
         <el-form-item label="试卷文件">
@@ -231,12 +233,12 @@ const submitUpload = async () => {
   }
 }
 
-// 开始批改试卷
-const handleStartGrading = async (paper) => {
+
+async function handleStartGrading(row) {
   try {
-    await startGrading(paper.id)
-    ElMessage.success('开始智能批改')
-    fetchPaperList() // 刷新试卷状态
+    await startGrading(row.id)
+    ElMessage.success('智能批改完成')
+    fetchPaperList()
   } catch (error) {
     ElMessage.error(error.message || '批改失败')
   }
@@ -246,7 +248,6 @@ const handleStartGrading = async (paper) => {
 const viewResult = async (paper) => {
   try {
     const { data } = await getGradingResult(paper.id)
-    // TODO: 显示批改结果详情
     ElMessage.success('获取结果成功')
   } catch (error) {
     ElMessage.error(error.message || '获取结果失败')

@@ -57,7 +57,7 @@
               <el-table-column label="操作" width="200">
                 <template #default="{ row }">
                   <el-button type="primary" size="small" @click="handleStartGrading(row)"
-                    :disabled="row.status === '已完成'">开始批改</el-button>
+                    :disabled="row.status === '已完成'">智能批改</el-button>
                   <el-button type="info" size="small" @click="viewResult(row)"
                     :disabled="row.status !== '已完成'">查看结果</el-button>
                 </template>

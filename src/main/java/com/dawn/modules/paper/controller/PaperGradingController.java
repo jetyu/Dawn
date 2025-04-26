@@ -9,23 +9,27 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
-import com.dawn.modules.paper.entity.Paper;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import com.dawn.modules.paper.model.Paper;
 import com.dawn.modules.paper.repository.PaperRepository;
+import com.dawn.modules.paper.service.PaperGradingService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/grading")
-
-
+@ConfigurationProperties(prefix = "paper")
 public class PaperGradingController {
 
-    @Value("${paper.upload.dir}")
     private String uploadDir;
 
     @Autowired
     private PaperRepository paperRepository;
 
+    @Autowired
+    private PaperGradingService paperGradingService;
+    
     @PostMapping("/upload")
     public ResponseEntity<?> uploadPaper(
             @RequestParam(name = "file") MultipartFile file,
@@ -53,7 +57,7 @@ public class PaperGradingController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "试卷上传成功");
             response.put("paperPath", dest.getAbsolutePath());
-            response.put("paperId", filename); // 用文件名做paperId示例
+            response.put("paperId", filename); // 用文件名做paperId
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
@@ -78,8 +82,8 @@ public class PaperGradingController {
 
     @PostMapping("/grade/{paperId}")
     public ResponseEntity<?> gradePaper(@PathVariable(name = "paperId") String paperId) {
-        try {
-
+        try {  
+            //paperGradingService.recognizeUploadPaper(paperId);
             Map<String, Object> result = new HashMap<>();
             result.put("status", "success");
             result.put("score", 95); // 示例分数

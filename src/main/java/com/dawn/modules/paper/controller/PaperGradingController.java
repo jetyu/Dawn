@@ -70,10 +70,8 @@ public class PaperGradingController {
     public ResponseEntity<?> listPapers() {
         try {
             List<Paper> papers = paperRepository.findAll();
-            System.out.println("查询到的试卷列表: " + papers);
             return ResponseEntity.ok(papers);
         } catch (Exception e) {
-            System.err.println("获取试卷列表失败: " + e.getMessage());
             Map<String, String> error = new HashMap<>();
             error.put("message", "获取试卷列表失败: " + e.getMessage());
             return ResponseEntity.badRequest().body(error);
@@ -82,12 +80,10 @@ public class PaperGradingController {
 
     @PostMapping("/grade/{paperId}")
     public ResponseEntity<?> gradePaper(@PathVariable(name = "paperId") String paperId) {
-        try {  
-            //paperGradingService.recognizeUploadPaper(paperId);
-            Map<String, Object> result = new HashMap<>();
-            result.put("status", "success");
-            result.put("score", 95); // 示例分数
-            result.put("feedback", "答案分析完成");
+        try {
+            // 调用批改服务，执行OCR识别
+            Map<String, Object> result = paperGradingService.recognizeUploadPaper(paperId, null, null);
+            // 控制台已打印OCR内容
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

@@ -8,13 +8,13 @@ import lombok.Data;
 @Configuration
 @ConfigurationProperties(prefix = "dawn")
 public class DawnProperties {
-    private PaperUpload paperUpload;
+    private Paper paper;
     private Ocr ocr;
 
     @Data
-    public static class PaperUpload {
+    public static class Paper {
         // 试卷上传配置
-        private String dir;
+        private String uploadDir;
     }
 
     @Data

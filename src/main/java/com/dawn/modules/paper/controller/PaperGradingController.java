@@ -9,8 +9,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
+import com.dawn.config.DawnProperties;
 import com.dawn.modules.paper.model.Paper;
 import com.dawn.modules.paper.repository.PaperRepository;
 import com.dawn.modules.paper.service.PaperGradingService;
@@ -19,16 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/grading")
-@ConfigurationProperties(prefix = "paper")
 public class PaperGradingController {
-
-    private String uploadDir;
 
     @Autowired
     private PaperRepository paperRepository;
 
     @Autowired
     private PaperGradingService paperGradingService;
+
+    @Autowired
+    private DawnProperties dawnProperties;
     
     @PostMapping("/upload")
     public ResponseEntity<?> uploadPaper(
@@ -36,7 +35,7 @@ public class PaperGradingController {
             @RequestParam(name = "name") String name,
             @RequestParam(name = "subject") String subject) {
         try {
-            // 自动保存文件到配置路径
+            String uploadDir = dawnProperties.getPaper().getUploadDir();
             File dir = new File(uploadDir);
             if (!dir.exists())
                 dir.mkdirs();

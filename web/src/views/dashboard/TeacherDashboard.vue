@@ -109,7 +109,7 @@
             <el-button type="primary">选择文件</el-button>
             <template #tip>
               <div class="el-upload__tip">
-                支持上传jpg/png/pdf格式的试卷文件
+                支持上传jpg/png/pdf格式的试卷文件，单个文件大小不超过20MB
               </div>
             </template>
           </el-upload>
@@ -205,6 +205,11 @@ const beforeFileUpload = (file) => {
   const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']
   if (!allowedTypes.includes(file.type)) {
     ElMessage.warning('只支持上传jpg/png/pdf格式的文件')
+    return false
+  }
+  const maxSize = 20 * 1024 * 1024
+  if (file.size > maxSize) {
+    ElMessage.warning('文件大小不能超过20MB')
     return false
   }
   return true

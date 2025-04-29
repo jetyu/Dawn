@@ -2,6 +2,7 @@ package com.dawn.modules.ocr.service.impl;
 
 import com.dawn.config.DawnProperties;
 import com.dawn.modules.ocr.service.OcrRecognizeService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -12,7 +13,7 @@ public class DynamicOcrRecognizeService implements OcrRecognizeService {
     private final Map<String, OcrRecognizeService> ocrRecognizeServiceMap;
     private final DawnProperties dawnProperties;
 
-    public DynamicOcrRecognizeService(Map<String, OcrRecognizeService> ocrRecognizeServiceMap, DawnProperties dawnProperties) {
+    public DynamicOcrRecognizeService(Map<String, OcrRecognizeService> ocrRecognizeServiceMap, @Qualifier("dawnProperties") DawnProperties dawnProperties) {
         this.ocrRecognizeServiceMap = ocrRecognizeServiceMap;
         this.dawnProperties = dawnProperties;
     }

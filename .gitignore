@@ -124,8 +124,8 @@ dist-ssr
 
 # Project specific
 uploads/
-.trae/rules/project_rules.md
-.roo/rules-code/rules.md
+.trae/
+.roo/
 .cursorrules
 .windsurfrules
 *.local

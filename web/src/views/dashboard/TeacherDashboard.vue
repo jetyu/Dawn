@@ -153,128 +153,123 @@ const paperList = ref([])
 
 // 获取试卷列表
 const fetchPaperList = async () => {
-  try {
-    const response = await getPaperList();
+  const response = await getPaperList();
 
-    const papers = Array.isArray(response) ? response : [];
+  const papers = Array.isArray(response) ? response : [];
 
-    paperList.value = papers.map(item => {
-      const uploadTime = item.uploadTime;
-      let formattedTime = '';
+  paperList.value = papers.map(item => {
+    const uploadTime = item.uploadTime;
+    let formattedTime = '';
 
-      if (uploadTime) {
-        if (typeof uploadTime === 'object') {
-          // 处理 LocalDateTime 对象
-          formattedTime = `${uploadTime.year}-${String(uploadTime.monthValue).padStart(2, '0')}-${String(uploadTime.dayOfMonth).padStart(2, '0')} ${String(uploadTime.hour).padStart(2, '0')}:${String(uploadTime.minute).padStart(2, '0')}`;
-        } else if (typeof uploadTime === 'string') {
-          // 处理字符串格式的日期
-          formattedTime = uploadTime;
-        }
+    if (uploadTime) {
+      if (typeof uploadTime === 'object') {
+        // 处理 LocalDateTime 对象
+        formattedTime = `${uploadTime.year}-${String(uploadTime.monthValue).padStart(2, '0')}-${String(uploadTime.dayOfMonth).padStart(2, '0')} ${String(uploadTime.hour).padStart(2, '0')}:${String(uploadTime.minute).padStart(2, '0')}`;
+      } else if (typeof uploadTime === 'string') {
+        // 处理字符串格式的日期
+        formattedTime = uploadTime;
       }
+    }
 
-      const paper = {
-        id: item.id,
-        name: item.name,
-        subject: item.subject,
-        uploadTime: formattedTime,
-        status: item.status || '未批改'
-      };
-      return paper;
-    });
-
-  } catch (error) {
-    ElMessage.error('获取试卷列表失败');
-  }
+    const paper = {
+      id: item.id,
+      name: item.name,
+      subject: item.subject,
+      uploadTime: formattedTime,
+      status: item.status || '未批改'
+    };
+    return paper;
+  })
 }
 
 // 上传对话框相关
 const uploadDialogVisible = ref(false)
-const uploadForm = reactive({
-  name: '',
-  subject: '',
-  file: null
-})
+  const uploadForm = reactive({
+    name: '',
+    subject: '',
+    file: null
+  })
 
-// 处理上传按钮点击
-const handleUpload = () => {
-  uploadDialogVisible.value = true
-}
-
-// 文件上传前的验证
-const beforeFileUpload = (file) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']
-  if (!allowedTypes.includes(file.type)) {
-    ElMessage.warning('只支持上传jpg/png/pdf格式的文件')
-    return false
-  }
-  const maxSize = 20 * 1024 * 1024
-  if (file.size > maxSize) {
-    ElMessage.warning('文件大小不能超过20MB')
-    return false
-  }
-  return true
-}
-
-// 处理文件上传
-const handleFileUpload = async (options) => {
-  const { file } = options
-  uploadForm.file = file
-}
-
-// 提交上传
-const submitUpload = async () => {
-  if (!uploadForm.name || !uploadForm.subject || !uploadForm.file) {
-    ElMessage.warning('请填写完整信息')
-    return
+  // 处理上传按钮点击
+  const handleUpload = () => {
+    uploadDialogVisible.value = true
   }
 
-  try {
-    await uploadPaper(uploadForm.file, uploadForm.name, uploadForm.subject)
-    ElMessage.success('上传成功')
-    uploadDialogVisible.value = false
-    fetchPaperList() // 刷新试卷列表
-  } catch (error) {
-    ElMessage.error(error.message || '上传失败')
+  // 文件上传前的验证
+  const beforeFileUpload = (file) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']
+    if (!allowedTypes.includes(file.type)) {
+      ElMessage.warning('只支持上传jpg/png/pdf格式的文件')
+      return false
+    }
+    const maxSize = 20 * 1024 * 1024
+    if (file.size > maxSize) {
+      ElMessage.warning('文件大小不能超过20MB')
+      return false
+    }
+    return true
   }
-}
+
+  // 处理文件上传
+  const handleFileUpload = async (options) => {
+    const { file } = options
+    uploadForm.file = file
+  }
+
+  // 提交上传
+  const submitUpload = async () => {
+    if (!uploadForm.name || !uploadForm.subject || !uploadForm.file) {
+      ElMessage.warning('请填写完整信息')
+      return
+    }
+
+    try {
+      await uploadPaper(uploadForm.file, uploadForm.name, uploadForm.subject)
+      ElMessage.success('上传成功')
+      uploadDialogVisible.value = false
+      fetchPaperList() // 刷新试卷列表
+    } catch (error) {
+      ElMessage.error(error.message || '上传失败')
+    }
+  }
 
 
-async function handleStartGrading(row) {
-  try {
-    await startGrading(row.id)
-    ElMessage.success('智能批改完成')
-    fetchPaperList()
-  } catch (error) {
-    ElMessage.error(error.message || '批改失败')
+  async function handleStartGrading(row) {
+    try {
+      await startGrading(row.id)
+      ElMessage.success('智能批改完成')
+      fetchPaperList()
+    } catch (error) {
+      ElMessage.error(error.message || '批改失败')
+    }
   }
-}
 
-// 查看批改结果
-const viewResult = async (paper) => {
-  try {
-    const { data } = await getGradingResult(paper.id)
-    ElMessage.success('获取结果成功')
-  } catch (error) {
-    ElMessage.error(error.message || '获取结果失败')
+  // 查看批改结果
+  const viewResult = async (paper) => {
+    try {
+      const { data } = await getGradingResult(paper.id)
+      ElMessage.success('获取结果成功')
+    } catch (error) {
+      ElMessage.error(error.message || '获取结果失败')
+    }
   }
-}
 
-// 刷新试卷列表
-const refreshPaperList = async () => {
-  try {
-    await fetchPaperList()
-    ElMessage.success('试卷列表刷新成功')
-  } catch (error) {
-    ElMessage.error('刷新试卷列表失败')
+  // 刷新试卷列表
+  const refreshPaperList = async () => {
+    try {
+      await fetchPaperList()
+      ElMessage.success('试卷列表刷新成功')
+    } catch (error) {
+      ElMessage.error('刷新试卷列表失败')
+    }
   }
-}
 
-// 在组件挂载时获取数据
-onMounted(() => {
-  if (currentContent.value === 'grading') {
-    fetchPaperList()
-  }
-})
+  // 在组件挂载时获取数据
+  onMounted(() => {
+    if (currentContent.value === 'grading') {
+      fetchPaperList()
+    }
+  })
 
 </script>
 

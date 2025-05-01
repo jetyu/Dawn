@@ -7,5 +7,4 @@ import com.dawn.modules.ocr.entity.OcrResult;
 
 @Repository
 public interface OcrResultRepository extends JpaRepository<OcrResult, Long> {
-    // 可添加自定义查询方法
 }

@@ -12,9 +12,9 @@ Dawn 智能教育平台，以人工智能驱动个性化学习体验，帮助学
 Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集成了 AI 辅助教学功能，旨在为教育工作者和学生提供更高效、更智能的教学体验。
 
 ### 项目状态
-- **开发**: 功能暂未完全实现。
-- **迭代**: 每周至少1次迭代。
-- **贡献**: 欢迎所有贡献者的参与！
+- **开发状态**: 开发中。
+- **迭代频率**: 每周至少1次。
+-
 
 ### 项目功能
 
@@ -55,6 +55,22 @@ Dawn是一个基于 Spring Boot 和 Vue.js 的现代化智能教育平台，集�
 - **构建工具**: Vite 4
 - **测试工具**: Cypress 端到端测试
 - **状态管理**: Pinia
+
+### 功能预览
+
+以下是项目的功能预览截图：
+
+#### AI学习助手
+![AI Assistant Preview](docs/preview/AIAssiant_Preview.jpg)
+
+#### 智能阅卷
+![Paper Grading Preview](docs/preview/PaperGrading_Preview.jpg)
+
+#### 用户登录
+![User Login Preview](docs/preview/UserLogin_Preview.jpg)
+
+#### 用户注册
+![User Register Preview](docs/preview/UserRegister_Preview.jpg)
 
 ### 成长轨迹  
 [![Star History Chart](https://api.star-history.com/svg?repos=jetyu/Dawn)](https://star-history.com/#jetyu/Dawn)  

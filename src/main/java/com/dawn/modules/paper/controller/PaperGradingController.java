@@ -45,7 +45,7 @@ public class PaperGradingController {
 
             // 保存试卷记录到数据库
             Paper paper = new Paper();
-            paper.setId(filename); // 用文件名做唯一ID
+            paper.setId(filename); 
             paper.setName(name);
             paper.setSubject(subject);
             paper.setPath(dest.getAbsolutePath());
@@ -56,7 +56,7 @@ public class PaperGradingController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "试卷上传成功");
             response.put("paperPath", dest.getAbsolutePath());
-            response.put("paperId", filename); // 用文件名做paperId
+            response.put("paperId", filename); 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
@@ -80,9 +80,8 @@ public class PaperGradingController {
     @PostMapping("/grade/{paperId}")
     public ResponseEntity<?> gradePaper(@PathVariable(name = "paperId") String paperId) {
         try {
-            // 调用批改服务，执行OCR识别
+            // 执行OCR识别
             Map<String, Object> result = paperGradingService.recognizeUploadPaper(paperId, null, null);
-            // 控制台已打印OCR内容
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

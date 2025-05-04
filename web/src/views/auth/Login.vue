@@ -77,11 +77,17 @@ const handleLogin = async () => {
             router.push('/PermissionRestrictions')
         }
       } catch (error) {
-        let errorMessage = error.message || t('errorMessage.loginFailed')
-        if (error.message === t('errorMessage.failedToFetch')) {
-          errorMessage = t('errorMessage.serverConnectionError')
+        if (error && error.message) {
+          ElMessage.error(error.message);
+        } else if (error) {
+          if (typeof error === 'object' && error.message) {
+            ElMessage.error(error.message);
+          } else {
+            ElMessage.error(t('errorMessage.loginFailed'));
+          }
+        } else {
+          ElMessage.error(t('errorMessage.loginFailed'));
         }
-        ElMessage.error(errorMessage)
       }
     }
   })

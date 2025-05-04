@@ -34,6 +34,8 @@ api.interceptors.response.use(
   (error) => {
     // 处理 token 过期
     if (error.response && error.response.status === 401) {
+      const errorType = error.response.data?.errorType;
+      
       // 清除 Pinia store 的 userInfo
       try {
         const userStore = useUserStore();
@@ -43,9 +45,12 @@ api.interceptors.response.use(
         localStorage.removeItem('userInfo');
         localStorage.removeItem('token');
       }
-      // 显示提示信息
+      //认证失败直接返回。
+      if (errorType === 'AUTHENTICATION_ERROR') {
+        return Promise.reject(error.response.data);
+      }
+
       ElMessage.error('登录已过期，请重新登录');
-      // 跳转到登录页
       router.push('/login');
       return Promise.reject(new Error('登录已过期，请重新登录'));
     }

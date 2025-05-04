@@ -6,6 +6,7 @@ import com.dawn.modules.user.repository.UserRepository;
 import com.dawn.constants.Constants;
 import com.dawn.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +42,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Cacheable(value = "users", key = "#username")
     public Optional<User> findByUsername(String username) {
         log.debug("根据用户名查询用户：{}", username);
         return userRepository.findByUsername(username);
@@ -93,6 +95,7 @@ public class UserService {
         }
     }
 
+    @Cacheable(value = "users", key = "#id")
     public Optional<User> findById(Long id) {
         log.debug("根据ID查询用户：{}", id);
         return userRepository.findById(id);

@@ -63,7 +63,7 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", Constants.ErrorMessage.LOGIN_ERROR);
+            errorResponse.put("errorType", "AUTHENTICATION_ERROR");
             errorResponse.put("message", Constants.ErrorMessage.INVALID_CREDENTIALS);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
@@ -71,9 +71,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
-        User registeredUser = userService.register(user);
-        return ResponseEntity.ok(Map.of(
-                "userId", registeredUser.getId(),
-                "username", registeredUser.getUsername()));
+        try {
+            User registeredUser = userService.register(user);
+            return ResponseEntity.ok(Map.of(
+                    "userId", registeredUser.getId(),
+                    "username", registeredUser.getUsername()));
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("errorType", "REGISTRATION_ERROR");
+            errorResponse.put("message", Constants.ErrorMessage.USERNAME_EXISTS);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
 }

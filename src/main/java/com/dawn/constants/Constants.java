@@ -17,7 +17,7 @@ public class Constants {
         public static final String DEFAULT = "你是一个人工智能助手，按照以下要求回答问题:";
         public static final String COURSE = "课程是";
         public static final String GRADE = "，学习水平是";
-        public static final String SIMPLE = "，请直接给出答案";
+        public static final String SIMPLE = "，请直接给出答案。这是问题：";
         public static final String DETAIL = "，要求分析解题过程并且给出详细的答案。按照此模板进行回复。分析过程，解题思路，答案";
     }
 

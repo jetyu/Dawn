@@ -1,7 +1,6 @@
 package com.dawn.modules.paper.service;
 
 
-import com.dawn.modules.ocr.service.AiOcrService;
 import com.dawn.modules.paper.repository.PaperRepository;
 import com.dawn.modules.paper.model.Paper;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +16,7 @@ import java.util.Optional;
 @Slf4j
 public class PaperGradingService {
 
-    @Autowired
-    private AiOcrService aiOcrService;
+   
     @Autowired
     private PaperRepository paperRepository;
 
@@ -40,7 +38,7 @@ public class PaperGradingService {
             }
             String ocrResult;
             try {
-                ocrResult = aiOcrService.aiOcrRecognize(file);
+                ocrResult = "TODO";
             } catch (Exception e) {
                 throw new RuntimeException("AI OCR识别失败: " + e.getMessage());
             }

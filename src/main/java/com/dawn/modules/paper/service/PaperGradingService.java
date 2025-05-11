@@ -1,12 +1,14 @@
 package com.dawn.modules.paper.service;
 
-
+import com.dawn.modules.ocr.dto.OcrRequest;
+import com.dawn.modules.ocr.dto.OcrResult;
+import com.dawn.modules.ocr.OcrService;
 import com.dawn.modules.paper.repository.PaperRepository;
 import com.dawn.modules.paper.model.Paper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +18,14 @@ import java.util.Optional;
 @Slf4j
 public class PaperGradingService {
 
-   
     @Autowired
     private PaperRepository paperRepository;
+
+    @Autowired
+    private OcrService ocrService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /*
      * 处理试卷OCR识别
@@ -38,7 +45,10 @@ public class PaperGradingService {
             }
             String ocrResult;
             try {
-                ocrResult = "TODO";
+                OcrRequest ocrRequest = new OcrRequest();
+                ocrRequest.setImageFile(file);
+                OcrResult ocrRes = ocrService.recognizeForSinglePage(ocrRequest);
+                ocrResult = objectMapper.writeValueAsString(ocrRes);
             } catch (Exception e) {
                 throw new RuntimeException("AI OCR识别失败: " + e.getMessage());
             }

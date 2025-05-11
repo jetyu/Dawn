@@ -2,6 +2,7 @@ package com.dawn.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
 import lombok.Data;
 
 @Data
@@ -19,10 +20,16 @@ public class DawnProperties {
 
     @Data
     public static class Ocr {
-        // OCR服务商
-        private String provider;
-        // 百度云配置
-        private String baiduApiKey;
-        private String baiduSecretKey;
+        private Openai openai;
+
+        @Data
+        public static class Openai {
+            /** OpenAI API Key */
+            private String apiKey;
+            /** OpenAI模型名称 */
+            private String model;
+            /** OpenAI接口地址 */
+            private String apiUrl;
+        }
     }
 }

@@ -8,7 +8,7 @@ import com.dawn.config.DawnProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties(DawnProperties.class)
-@MapperScan("com.dawn.mapper")
+@MapperScan({"com.dawn.modules.ocr.mapper"})
 public class Application {
 
 	public static void main(String[] args) {

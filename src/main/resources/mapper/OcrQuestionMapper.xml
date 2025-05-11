@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dawn.modules.ocr.mapper.OcrQuestionMapper">
+    <insert id="insertBatch">
+        insert into ocr_question (
+            paper_id, title_id, title_type, title_content, title_options, student_answer, correct_answer, title_score, student_score, answered, create_time
+        ) values
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.paperId},
+                #{item.titleId},
+                #{item.titleType},
+                #{item.titleContent},
+                #{item.titleOptions},
+                #{item.studentAnswer},
+                #{item.correctAnswer},
+                #{item.titleScore},
+                #{item.studentScore},
+                #{item.answered},
+                now()
+            )
+        </foreach>
+    </insert>
+</mapper>

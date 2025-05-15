@@ -1,94 +1,96 @@
 {
-	"global": {
-		"systemTitle": "AI学习平台",
-		"copyrightPrefix": "Copyright ©",
-		"copyrightName": "Jet Studio. All Rights Reserved."
-	},
-	"placeholder": {
-		"username": "请输入用户名",
-		"password": "请输入密码",
-		"searchUserByNumber": "请输入账号/姓名/联系电话",
-		"phone": "请输入联系电话",
-		"address": "请输入家庭住址",
-		"name": "请输入姓名",
-		"nationId": "请输入身份证号码",
-		"age": "请输入年龄",
-		"degree": "请输入学位"
-	},
-	"label": {
-		"visitDate": "就诊日期",
-		"visitTime": "就诊时间",
-		"phone": "联系电话",
-		"address": "家庭住址",
-		"operations": "操作",
-		"name": "姓名",
-		"nickname": "昵称",
-		"username": "登陆账号",
-		"nationId": "身份证号码",
-		"userId": "用户ID",
-		"age": "年龄",
-		"role": "角色",
-		"email": "电子邮件",
-		"degree": "学位",
-		"university": "大学",
-		"educationalBackground": "学历",
-		"gender": "性别",
-		"userCreateTime": "账户创建时间",
-		"userLastLoginTime": "最近登录时间",
-		"male": "男",
-		"status": "状态",
-		"female": "女",
-		"warning": "警告",
-		"blocked": "已封禁",
-		"suspended": "已暂停",
-		"inactive": "未激活",
-		"active": "可用",
-		"admin": "管理员",
-		"description": "简介"
-	},
-	"pageTitle": {
-		"loginPageTitle": "登录",
-		"userloginPageTitle": "用户登录",
-		"registerPageTitle": "用户注册",
-		"forgotPasswordPageTitle": "找回密码",
-		"userManagementListPageTitle": "用户信息管理"
-	},
-	"button": {
-		"edit": "编辑",
-		"delete": "删除",
-		"submit": "确定",
-		"cancel": "取消",
-		"reset": "重置",
-		"register": "注册",
-		"registerAccount": "注册账号",
-		"forgotPassword": "忘记密码",
-		"returnLogin": "返回登录",
-		"login": "登录",
-		"addUser": "添加用户",
-		"batchDeleteUser": "删除用户"
-	},
-	"confirmMessage": {
-		"confirmBatchDeleteUser": "确定要删除选中的 {count} 个用户吗？",
-		"confirmDeleteUser": "确定要删除该用户吗？"
-	},
-	"warningMessage": {
-		"addRecord": "添加成功",
-		"updateRecord": "更新成功",
-		"deleteRecord": "删除成功",
-		"batchDeleteRecord": "批量删除成功"
-	},
-	"successMessage": {
-		"loginSuccess": "登录成功",
-		"registerSuccess": "注册成功"
-	},
-	"errorMessage": {
-		"failedToFetch": "Failed to fetch",
-		"serverConnectionError": "服务器连接失败，请检查服务器是否启动",
-		"operationRecordFailed": "操作失败，请稍后重试",
-		"deleteRecordFailed": "删除失败",
-		"requestFailed": "请求失败",
-		"registerFailed": "注册失败",
-		"loginFailed": "登录失败",
-		"batchDeleteRecordFailed": "批量删除失败"
-	}
+  "global": {
+    "systemTitle": "AI学习平台",
+    "copyrightPrefix": "Copyright ©",
+    "copyrightName": "Jet Studio. All Rights Reserved."
+  },
+  "placeholder": {
+    "username": "请输入用户名",
+    "password": "请输入密码",
+    "searchUserByNumber": "请输入账号/姓名/联系电话",
+    "phone": "请输入联系电话",
+    "address": "请输入家庭住址",
+    "name": "请输入姓名",
+    "nationId": "请输入身份证号码",
+    "age": "请输入年龄",
+    "degree": "请输入学位"
+  },
+  "label": {
+    "visitDate": "就诊日期",
+    "visitTime": "就诊时间",
+    "phone": "联系电话",
+    "address": "家庭住址",
+    "operations": "操作",
+    "name": "姓名",
+    "nickname": "昵称",
+    "username": "登陆账号",
+    "nationId": "身份证号码",
+    "userId": "用户ID",
+    "age": "年龄",
+    "role": "角色",
+    "email": "电子邮件",
+    "degree": "学位",
+    "university": "大学",
+    "educationalBackground": "学历",
+    "gender": "性别",
+    "userCreateTime": "账户创建时间",
+    "userLastLoginTime": "最近登录时间",
+    "male": "男",
+    "status": "状态",
+    "female": "女",
+    "warning": "警告",
+    "blocked": "已封禁",
+    "suspended": "已暂停",
+    "inactive": "未激活",
+    "graded": "已批改",
+    "ungraded": "未批改",
+    "active": "可用",
+    "admin": "管理员",
+    "description": "简介"
+  },
+  "pageTitle": {
+    "loginPageTitle": "登录",
+    "userloginPageTitle": "用户登录",
+    "registerPageTitle": "用户注册",
+    "forgotPasswordPageTitle": "找回密码",
+    "userManagementListPageTitle": "用户信息管理"
+  },
+  "button": {
+    "edit": "编辑",
+    "delete": "删除",
+    "submit": "确定",
+    "cancel": "取消",
+    "reset": "重置",
+    "register": "注册",
+    "registerAccount": "注册账号",
+    "forgotPassword": "忘记密码",
+    "returnLogin": "返回登录",
+    "login": "登录",
+    "addUser": "添加用户",
+    "batchDeleteUser": "删除用户"
+  },
+  "confirmMessage": {
+    "confirmBatchDeleteUser": "确定要删除选中的 {count} 个用户吗？",
+    "confirmDeleteUser": "确定要删除该用户吗？"
+  },
+  "warningMessage": {
+    "addRecord": "添加成功",
+    "updateRecord": "更新成功",
+    "deleteRecord": "删除成功",
+    "batchDeleteRecord": "批量删除成功"
+  },
+  "successMessage": {
+    "loginSuccess": "登录成功",
+    "registerSuccess": "注册成功"
+  },
+  "errorMessage": {
+    "failedToFetch": "Failed to fetch",
+    "serverConnectionError": "服务器连接失败，请检查服务器是否启动",
+    "operationRecordFailed": "操作失败，请稍后重试",
+    "deleteRecordFailed": "删除失败",
+    "requestFailed": "请求失败",
+    "registerFailed": "注册失败",
+    "loginFailed": "登录失败",
+    "batchDeleteRecordFailed": "批量删除失败"
+  }
 }

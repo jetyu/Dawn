@@ -9,6 +9,11 @@ public class Constants {
     BLOCKED // 封禁
   }
 
+  public enum PaperStatus {
+    GRADED, // 已批改
+    UNGRADED // 未批改
+  }
+
   public enum UserRoles {
     Teacher, Student, Parent, Admin
   }

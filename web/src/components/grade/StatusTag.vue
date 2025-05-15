@@ -16,10 +16,14 @@ const props = defineProps({
 
 const getStatusType = (status) => {
   const statusTypes = {
+    // 用户状态
     'ACTIVE': 'success',
     'INACTIVE': 'warning',
     'BLOCKED': 'danger',
-    'SUSPENDED': 'info'
+    'SUSPENDED': 'info',
+    // 试卷批改状态
+    'UNGRADED': 'info',   
+    'GRADED': 'success'   
   }
   return statusTypes[status] || 'info'
 }

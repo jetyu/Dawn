@@ -2,6 +2,7 @@ package com.dawn.modules.paper.service;
 
 import com.dawn.modules.ocr.dto.OcrRequest;
 import com.dawn.modules.ocr.dto.OcrResult;
+import com.dawn.constants.Constants.PaperStatus;
 import com.dawn.modules.ocr.OcrService;
 import com.dawn.modules.paper.repository.PaperRepository;
 import com.dawn.modules.paper.model.Paper;
@@ -43,17 +44,31 @@ public class PaperGradingService {
             if (!file.exists()) {
                 throw new RuntimeException("试卷图片文件不存在: " + filePath);
             }
-            String ocrResult;
+            String ocrResult = null;
+            double totalScore = 0;
             try {
                 OcrRequest ocrRequest = new OcrRequest();
                 ocrRequest.setImageFile(file);
                 OcrResult ocrRes = ocrService.recognizeForSinglePage(ocrRequest);
                 ocrResult = objectMapper.writeValueAsString(ocrRes);
+                // 统计总分
+                if (ocrRes.getQuestions() != null) {
+                    for (OcrResult.Question q : ocrRes.getQuestions()) {
+                        if (q.getStudentScore() != null) {
+                            totalScore += q.getStudentScore();
+                        }
+                    }
+                }
+                // 更新试卷状态与分数
+                paper.setStatus(PaperStatus.GRADED.name());
+                paper.setTotalScore(totalScore);
+                paperRepository.save(paper);
             } catch (Exception e) {
                 throw new RuntimeException("AI OCR识别失败: " + e.getMessage());
             }
             result.put("status", "success");
             result.put("ocrResult", ocrResult);
+            result.put("score", totalScore);
         } catch (Exception e) {
             result.put("status", "error");
             result.put("message", e.getMessage());

@@ -4,12 +4,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
+import java.util.Optional;
 import java.util.HashMap;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.dawn.config.DawnProperties;
+import com.dawn.constants.Constants.PaperStatus;
 import com.dawn.modules.paper.model.Paper;
 import com.dawn.modules.paper.repository.PaperRepository;
 import com.dawn.modules.paper.service.PaperGradingService;
@@ -50,7 +52,7 @@ public class PaperGradingController {
             paper.setSubject(subject);
             paper.setPath(dest.getAbsolutePath());
             paper.setUploadTime(LocalDateTime.now());
-            paper.setStatus("未批改"); // 设置默认状态
+            paper.setStatus(PaperStatus.UNGRADED.name()); // 设置默认状态
             paperRepository.save(paper);
 
             Map<String, Object> response = new HashMap<>();
@@ -93,17 +95,16 @@ public class PaperGradingController {
     @GetMapping("/result/{paperId}")
     public ResponseEntity<?> getGradingResult(@PathVariable(name = "paperId") String paperId) {
         try {
-
+            Optional<Paper> paperOpt = paperRepository.findById(paperId);
+            if (paperOpt.isEmpty()) {
+                throw new RuntimeException("试卷不存在");
+            }
+            Paper paper = paperOpt.get();
             Map<String, Object> result = new HashMap<>();
             result.put("paperId", paperId);
-            result.put("score", 95);
-            result.put("details", new HashMap<String, Object>() {
-                {
-                    put("correctCount", 18);
-                    put("totalCount", 20);
-                    put("analysis", "答题完成度高，理解深入");
-                }
-            });
+            result.put("score", paper.getTotalScore());
+            result.put("status", paper.getStatus());
+            // 可扩展返回批改详情等
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

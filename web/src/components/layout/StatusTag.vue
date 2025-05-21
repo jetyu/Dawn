@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { formatStatus } from '@/utils/layoutFormat'
+import {formatStatus} from '@/utils/layoutFormat.js'
 
 const props = defineProps({
   status: {
@@ -22,8 +22,8 @@ const getStatusType = (status) => {
     'BLOCKED': 'danger',
     'SUSPENDED': 'info',
     // 试卷批改状态
-    'UNGRADED': 'info',   
-    'GRADED': 'success'   
+    'UNGRADED': 'info',
+    'GRADED': 'success'
   }
   return statusTypes[status] || 'info'
 }
